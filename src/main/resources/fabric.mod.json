@@ -1,0 +1,30 @@
+{
+	"schemaVersion": 1,
+	"id": "choice_craft",
+	"version": "${version}",
+	"name": "Choice Craft",
+	"description": "",
+	"authors": [
+		"Lum Chan"
+	],
+	"license": "MIT",
+	"icon": "assets/choice_craft/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+          "com.choice_craft.ChoiceCraftMod"
+		],
+        "client": [
+          "com.choice_craft.ChoiceCraftModClient"
+        ]
+	},
+	"mixins": [
+		"choice_craft.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.18.4",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

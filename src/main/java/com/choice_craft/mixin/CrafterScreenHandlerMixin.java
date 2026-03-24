@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.inventory.RecipeInputInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.input.CraftingRecipeInput;
@@ -30,6 +31,13 @@ public abstract class CrafterScreenHandlerMixin implements ChoiceRecipeSelection
 		if (this.inputInventory instanceof ChoiceCraftingSelectionAccess access) {
 			access.choice_craft$selectCraftingRecipe(recipeId);
 		}
+	}
+
+	@Override
+	public void choice_craft$refreshSelectedRecipe(ServerPlayerEntity player) {
+		this.onSlotUpdate((ScreenHandler) (Object) this, 0, ItemStack.EMPTY);
+		((ScreenHandler) (Object) this).sendContentUpdates();
+		this.choice_craft$sendRecipeOptions(player);
 	}
 
 	@Override
@@ -61,4 +69,7 @@ public abstract class CrafterScreenHandlerMixin implements ChoiceRecipeSelection
 
 		return net.minecraft.block.CrafterBlock.getCraftingRecipe(world, input);
 	}
+
+	@Shadow
+	public abstract void onSlotUpdate(ScreenHandler handler, int slotId, ItemStack stack);
 }

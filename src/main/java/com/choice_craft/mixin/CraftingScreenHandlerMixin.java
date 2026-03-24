@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.CraftingScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,5 +33,14 @@ public abstract class CraftingScreenHandlerMixin implements ChoiceRecipeSelectio
 			}
 		});
 		ci.cancel();
+	}
+
+	@Override
+	public void choice_craft$refreshSelectedRecipe(ServerPlayerEntity player) {
+		this.context.run((world, pos) -> {
+			if (world instanceof ServerWorld serverWorld) {
+				((AbstractCraftingScreenHandlerMixin) (Object) this).choice_craft$refreshSelection(serverWorld, player);
+			}
+		});
 	}
 }

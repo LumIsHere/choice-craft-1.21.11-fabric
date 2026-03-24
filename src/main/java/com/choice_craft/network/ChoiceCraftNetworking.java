@@ -33,6 +33,7 @@ public final class ChoiceCraftNetworking {
 
 			if (handler instanceof ChoiceRecipeSelectionAccess access) {
 				access.choice_craft$selectRecipe(payload.recipeId().toString());
+				access.choice_craft$refreshSelectedRecipe(context.player());
 			}
 		});
 		ServerPlayNetworking.registerGlobalReceiver(RequestChoiceRecipeOptionsPayload.ID, (payload, context) -> {

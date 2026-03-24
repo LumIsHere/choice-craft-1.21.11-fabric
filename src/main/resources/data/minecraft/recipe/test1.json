@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    [
+      "stick"
+    ]
+  ],
+  "result": {
+    "id": "minecraft:gold_ingot"
+  }
+}

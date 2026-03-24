@@ -3,7 +3,19 @@
 	"package": "com.choice_craft.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"AbstractCraftingScreenHandlerMixin",
+		"AbstractFurnaceBlockEntityMixin",
+		"AbstractFurnaceScreenHandlerMixin",
+		"CrafterBlockEntityMixin",
+		"CrafterBlockMixin",
+		"CrafterScreenHandlerMixin",
+		"CraftingScreenHandlerAccessor",
+		"CraftingScreenHandlerMixin",
+		"PlayerScreenHandlerMixin"
+	],
+	"client": [
+		"client.CrafterScreenMixin",
+		"client.RecipeBookScreenMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

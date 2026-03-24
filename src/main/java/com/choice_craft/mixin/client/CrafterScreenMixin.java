@@ -38,7 +38,7 @@ public abstract class CrafterScreenMixin extends HandledScreen<CrafterScreenHand
 
 	@Inject(method = "init", at = @At("TAIL"))
 	private void choice_craft$addButton(CallbackInfo ci) {
-		this.choice_craft$recipeButton = this.addDrawableChild(new ChoiceIconButtonWidget(this.x + 138, this.y + 20, 8, 8, choice_craft$BUTTON_TEXTURE, choice_craft$BUTTON_HOVERED_TEXTURE, Text.literal("Choose recipe"), button -> {
+		this.choice_craft$recipeButton = this.addDrawableChild(new ChoiceIconButtonWidget(this.x + 138, this.y + 20, 8, 8, choice_craft$BUTTON_TEXTURE, choice_craft$BUTTON_HOVERED_TEXTURE, Text.translatable("choice_craft.tooltip.choose_recipe"), button -> {
 			this.choice_craft$requestRecipeOptions(true);
 		}));
 		this.choice_craft$updateButton();

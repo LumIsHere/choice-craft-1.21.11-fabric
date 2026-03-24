@@ -54,7 +54,7 @@ public abstract class RecipeBookScreenMixin<T extends AbstractRecipeScreenHandle
 
 		int buttonX = this.x + outputSlot.x + 4;
 		int buttonY = this.y + outputSlot.y - 10;
-		this.choice_craft$recipeButton = this.addDrawableChild(new ChoiceIconButtonWidget(buttonX, buttonY, 8, 8, choice_craft$BUTTON_TEXTURE, choice_craft$BUTTON_HOVERED_TEXTURE, Text.literal("Choose recipe"), button -> {
+		this.choice_craft$recipeButton = this.addDrawableChild(new ChoiceIconButtonWidget(buttonX, buttonY, 8, 8, choice_craft$BUTTON_TEXTURE, choice_craft$BUTTON_HOVERED_TEXTURE, Text.translatable("choice_craft.tooltip.choose_recipe"), button -> {
 			if (furnaceHandler) {
 				this.choice_craft$requestRecipeOptions(true);
 			} else if (ChoiceCraftClientState.get(this.handler.syncId).options().size() > 1) {

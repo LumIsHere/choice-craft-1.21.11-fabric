@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "نواتج الوصفات",
+  "choice_craft.screen.no_results": "لا توجد وصفات مطابقة",
+  "choice_craft.screen.recipe_entry": "ناتج الوصفة: %s",
+  "choice_craft.search": "بحث",
+  "choice_craft.search.placeholder": "ابحث عن الوصفات",
+  "choice_craft.tooltip.choose_recipe": "اختر الوصفة"
+}

@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "조합법 결과",
+  "choice_craft.screen.no_results": "일치하는 조합법이 없습니다",
+  "choice_craft.screen.recipe_entry": "조합법 결과: %s",
+  "choice_craft.search": "검색",
+  "choice_craft.search.placeholder": "조합법 검색",
+  "choice_craft.tooltip.choose_recipe": "조합법 선택"
+}

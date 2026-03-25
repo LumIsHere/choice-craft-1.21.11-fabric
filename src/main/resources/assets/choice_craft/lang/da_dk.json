@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "Opskriftsresultater",
+  "choice_craft.screen.no_results": "Ingen matchende opskrifter",
+  "choice_craft.screen.recipe_entry": "Opskriftsresultat: %s",
+  "choice_craft.search": "Sog",
+  "choice_craft.search.placeholder": "Sog efter opskrifter",
+  "choice_craft.tooltip.choose_recipe": "Vaelg opskrift"
+}

@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "Αποτελεσματα συνταγων",
+  "choice_craft.screen.no_results": "Δεν βρεθηκαν αντιστοιχες συνταγες",
+  "choice_craft.screen.recipe_entry": "Αποτελεσμα συνταγης: %s",
+  "choice_craft.search": "Αναζητηση",
+  "choice_craft.search.placeholder": "Αναζητηση συνταγων",
+  "choice_craft.tooltip.choose_recipe": "Επιλογη συνταγης"
+}

@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "Rezeptausgaben",
+  "choice_craft.screen.no_results": "Keine passenden Rezepte",
+  "choice_craft.screen.recipe_entry": "Rezeptausgabe: %s",
+  "choice_craft.search": "Suchen",
+  "choice_craft.search.placeholder": "Rezepte suchen",
+  "choice_craft.tooltip.choose_recipe": "Rezept auswahlen"
+}

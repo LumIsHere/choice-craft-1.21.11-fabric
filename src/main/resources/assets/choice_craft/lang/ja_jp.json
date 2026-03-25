@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "レシピの出力",
+  "choice_craft.screen.no_results": "一致するレシピがありません",
+  "choice_craft.screen.recipe_entry": "レシピ出力: %s",
+  "choice_craft.search": "検索",
+  "choice_craft.search.placeholder": "レシピを検索",
+  "choice_craft.tooltip.choose_recipe": "レシピを選択"
+}

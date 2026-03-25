@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "Recipe Outpuppes",
+  "choice_craft.screen.no_results": "No matching recipeppes",
+  "choice_craft.screen.recipe_entry": "Recipe outputte: %s",
+  "choice_craft.search": "Searche",
+  "choice_craft.search.placeholder": "Searche recipeppes",
+  "choice_craft.tooltip.choose_recipe": "Choose recipeppe"
+}

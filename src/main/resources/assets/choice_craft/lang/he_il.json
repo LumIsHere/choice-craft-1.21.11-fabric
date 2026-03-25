@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "תוצאות מתכונים",
+  "choice_craft.screen.no_results": "אין מתכונים תואמים",
+  "choice_craft.screen.recipe_entry": "תוצאת מתכון: %s",
+  "choice_craft.search": "חיפוש",
+  "choice_craft.search.placeholder": "חיפוש מתכונים",
+  "choice_craft.tooltip.choose_recipe": "בחירת מתכון"
+}

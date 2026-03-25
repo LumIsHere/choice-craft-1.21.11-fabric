@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "रेसिपी परिणाम",
+  "choice_craft.screen.no_results": "कोई मेल खाती रेसिपी नहीं मिली",
+  "choice_craft.screen.recipe_entry": "रेसिपी परिणाम: %s",
+  "choice_craft.search": "खोजें",
+  "choice_craft.search.placeholder": "रेसिपी खोजें",
+  "choice_craft.tooltip.choose_recipe": "रेसिपी चुनें"
+}

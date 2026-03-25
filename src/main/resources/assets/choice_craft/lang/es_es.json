@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "Resultados de recetas",
+  "choice_craft.screen.no_results": "No hay recetas coincidentes",
+  "choice_craft.screen.recipe_entry": "Resultado de receta: %s",
+  "choice_craft.search": "Buscar",
+  "choice_craft.search.placeholder": "Buscar recetas",
+  "choice_craft.tooltip.choose_recipe": "Elegir receta"
+}

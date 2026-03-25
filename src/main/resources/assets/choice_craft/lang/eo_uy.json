@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "Rezultoj de receptoj",
+  "choice_craft.screen.no_results": "Neniuj kongruaj receptoj",
+  "choice_craft.screen.recipe_entry": "Rezulto de recepto: %s",
+  "choice_craft.search": "Serchi",
+  "choice_craft.search.placeholder": "Serchi receptojn",
+  "choice_craft.tooltip.choose_recipe": "Elekti recepton"
+}

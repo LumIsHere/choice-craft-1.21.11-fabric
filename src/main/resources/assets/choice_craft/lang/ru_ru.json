@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "Результаты рецептов",
+  "choice_craft.screen.no_results": "Подходящие рецепты не найдены",
+  "choice_craft.screen.recipe_entry": "Результат рецепта: %s",
+  "choice_craft.search": "Поиск",
+  "choice_craft.search.placeholder": "Поиск рецептов",
+  "choice_craft.tooltip.choose_recipe": "Выбрать рецепт"
+}

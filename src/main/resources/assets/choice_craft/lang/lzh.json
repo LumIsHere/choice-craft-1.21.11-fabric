@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "方輸",
+  "choice_craft.screen.no_results": "無相應方",
+  "choice_craft.screen.recipe_entry": "方輸：%s",
+  "choice_craft.search": "索",
+  "choice_craft.search.placeholder": "索方",
+  "choice_craft.tooltip.choose_recipe": "擇方"
+}

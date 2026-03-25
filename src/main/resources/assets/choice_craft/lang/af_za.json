@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "Resepuitsette",
+  "choice_craft.screen.no_results": "Geen passende resepte nie",
+  "choice_craft.screen.recipe_entry": "Resepuitset: %s",
+  "choice_craft.search": "Soek",
+  "choice_craft.search.placeholder": "Soek resepte",
+  "choice_craft.tooltip.choose_recipe": "Kies resep"
+}

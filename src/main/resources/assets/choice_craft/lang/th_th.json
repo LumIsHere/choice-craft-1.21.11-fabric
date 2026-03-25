@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "ผลลัพธ์สูตรคราฟต์",
+  "choice_craft.screen.no_results": "ไม่พบสูตรที่ตรงกัน",
+  "choice_craft.screen.recipe_entry": "ผลลัพธ์สูตรคราฟต์: %s",
+  "choice_craft.search": "ค้นหา",
+  "choice_craft.search.placeholder": "ค้นหาสูตรคราฟต์",
+  "choice_craft.tooltip.choose_recipe": "เลือกสูตร"
+}

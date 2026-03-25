@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "Nommy Crafties",
+  "choice_craft.screen.no_results": "No recipez matchy match",
+  "choice_craft.screen.recipe_entry": "Recipe nom out: %s",
+  "choice_craft.search": "Sniff",
+  "choice_craft.search.placeholder": "Sniff for recipez",
+  "choice_craft.tooltip.choose_recipe": "Pick dis recipe"
+}

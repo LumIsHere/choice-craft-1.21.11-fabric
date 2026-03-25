@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "配方输出",
+  "choice_craft.screen.no_results": "没有匹配的配方",
+  "choice_craft.screen.recipe_entry": "配方输出：%s",
+  "choice_craft.search": "搜索",
+  "choice_craft.search.placeholder": "搜索配方",
+  "choice_craft.tooltip.choose_recipe": "选择配方"
+}

@@ -1,0 +1,8 @@
+{
+  "choice_craft.screen.recipe_outputs": "Rezeptusgabe",
+  "choice_craft.screen.no_results": "Kei passende Rezept",
+  "choice_craft.screen.recipe_entry": "Rezeptusgab: %s",
+  "choice_craft.search": "Sueche",
+  "choice_craft.search.placeholder": "Nach Rezept sueche",
+  "choice_craft.tooltip.choose_recipe": "Rezept waehle"
+}

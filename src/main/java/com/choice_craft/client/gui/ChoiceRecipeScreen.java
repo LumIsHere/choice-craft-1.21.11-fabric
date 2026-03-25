@@ -195,12 +195,14 @@ public class ChoiceRecipeScreen extends Screen {
 			int y = this.getY();
 			int iconX = x + 4;
 			int iconY = y + 4;
-			int centerX = this.getContentMiddleX();
+			String name = output.getName().getString();
+			int textWidth = ChoiceRecipeScreen.this.textRenderer.getWidth(name);
+			int textX = ChoiceRecipeScreen.this.width / 2 - textWidth / 2;
 			int textY = this.getContentMiddleY() - 9 / 2;
 
 			context.drawItem(output, iconX, iconY);
 			context.drawStackOverlay(ChoiceRecipeScreen.this.textRenderer, output, iconX, iconY);
-			context.drawCenteredTextWithShadow(ChoiceRecipeScreen.this.textRenderer, output.getName(), centerX, textY, 0xFFFFFF);
+			context.drawTextWithShadow(ChoiceRecipeScreen.this.textRenderer, name, textX, textY, Colors.WHITE);
 		}
 
 		@Override

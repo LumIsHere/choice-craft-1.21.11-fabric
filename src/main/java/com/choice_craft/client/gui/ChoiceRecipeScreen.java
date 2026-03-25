@@ -59,8 +59,8 @@ public class ChoiceRecipeScreen extends Screen {
 		this.addDrawableChild(this.recipeList);
 
 		this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, button -> this.choice_craft$onDone())
-			.dimensions((this.width - 200) / 2, this.height - FOOTER_HEIGHT + 4, 200, 20)
-			.build());
+				.dimensions((this.width - 200) / 2, this.height - FOOTER_HEIGHT + 4, 200, 20)
+				.build());
 
 		this.choice_craft$refreshList();
 		this.setInitialFocus(this.searchField);
@@ -84,11 +84,11 @@ public class ChoiceRecipeScreen extends Screen {
 
 		if (this.recipeList != null && this.recipeList.children().isEmpty()) {
 			context.drawCenteredTextWithShadow(
-				this.textRenderer,
-				Text.translatable("choice_craft.screen.no_results"),
-				this.width / 2,
-				this.height / 2,
-				0xAAAAAA
+					this.textRenderer,
+					Text.translatable("choice_craft.screen.no_results"),
+					this.width / 2,
+					this.height / 2,
+					0xAAAAAA
 			);
 		}
 	}

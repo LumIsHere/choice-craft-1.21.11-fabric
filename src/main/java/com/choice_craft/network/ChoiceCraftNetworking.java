@@ -8,7 +8,7 @@ import com.choice_craft.network.payload.RequestChoiceRecipeOptionsPayload;
 import com.choice_craft.network.payload.SelectChoiceRecipePayload;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.screen.ScreenHandler;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 
 public final class ChoiceCraftNetworking {
 	private static boolean initialized;
@@ -26,8 +26,8 @@ public final class ChoiceCraftNetworking {
 		PayloadTypeRegistry.playC2S().register(SelectChoiceRecipePayload.ID, SelectChoiceRecipePayload.CODEC);
 		PayloadTypeRegistry.playC2S().register(RequestChoiceRecipeOptionsPayload.ID, RequestChoiceRecipeOptionsPayload.CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(SelectChoiceRecipePayload.ID, (payload, context) -> {
-			ScreenHandler handler = context.player().currentScreenHandler;
-			if (handler == null || handler.syncId != payload.syncId()) {
+			AbstractContainerMenu handler = context.player().containerMenu;
+			if (handler == null || handler.containerId != payload.syncId()) {
 				return;
 			}
 
@@ -37,8 +37,8 @@ public final class ChoiceCraftNetworking {
 			}
 		});
 		ServerPlayNetworking.registerGlobalReceiver(RequestChoiceRecipeOptionsPayload.ID, (payload, context) -> {
-			ScreenHandler handler = context.player().currentScreenHandler;
-			if (handler == null || handler.syncId != payload.syncId()) {
+			AbstractContainerMenu handler = context.player().containerMenu;
+			if (handler == null || handler.containerId != payload.syncId()) {
 				return;
 			}
 

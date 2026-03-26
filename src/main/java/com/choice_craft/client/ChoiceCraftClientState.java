@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 
 public final class ChoiceCraftClientState {
 	private static final Map<Integer, RecipeChoiceState> STATES = new ConcurrentHashMap<>();

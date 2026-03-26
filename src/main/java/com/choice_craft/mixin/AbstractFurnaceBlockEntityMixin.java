@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.AbstractCookingRecipe;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.input.SingleStackRecipeInput;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractFurnaceBlockEntity.class)
 public abstract class AbstractFurnaceBlockEntityMixin implements ChoiceCookingSelectionAccess {
-	@Shadow protected net.minecraft.util.collection.DefaultedList<ItemStack> inventory;
+	@Shadow protected net.minecraft.core.NonNullList<ItemStack> items;
 
 	@Unique
 	private RecipeType<? extends AbstractCookingRecipe> choice_craft$recipeType;
@@ -35,58 +35,58 @@ public abstract class AbstractFurnaceBlockEntityMixin implements ChoiceCookingSe
 	private @Nullable Identifier choice_craft$selectedRecipeId;
 
 	@Inject(method = "<init>", at = @At("TAIL"))
-	private void choice_craft$captureRecipeType(net.minecraft.block.entity.BlockEntityType<?> type, net.minecraft.util.math.BlockPos pos, net.minecraft.block.BlockState state, RecipeType<? extends AbstractCookingRecipe> recipeType, CallbackInfo ci) {
+	private void choice_craft$captureRecipeType(net.minecraft.world.level.block.entity.BlockEntityType<?> type, net.minecraft.core.BlockPos pos, net.minecraft.world.level.block.state.BlockState state, RecipeType<? extends AbstractCookingRecipe> recipeType, CallbackInfo ci) {
 		this.choice_craft$recipeType = recipeType;
 	}
 
 	@Redirect(
-		method = "tick",
+		method = "serverTick",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/recipe/ServerRecipeManager$MatchGetter;getFirstMatch(Lnet/minecraft/recipe/input/RecipeInput;Lnet/minecraft/server/world/ServerWorld;)Ljava/util/Optional;"
+			target = "Lnet/minecraft/world/item/crafting/RecipeManager$CachedCheck;getRecipeFor(Lnet/minecraft/world/item/crafting/RecipeInput;Lnet/minecraft/server/level/ServerLevel;)Ljava/util/Optional;"
 		)
 	)
-	private static Optional<? extends RecipeEntry<? extends AbstractCookingRecipe>> choice_craft$pickTickRecipe(
-		net.minecraft.recipe.ServerRecipeManager.MatchGetter<SingleStackRecipeInput, ? extends AbstractCookingRecipe> matchGetter,
-		net.minecraft.recipe.input.RecipeInput input,
-		ServerWorld world,
-		ServerWorld tickWorld,
-		net.minecraft.util.math.BlockPos pos,
-		net.minecraft.block.BlockState state,
+	private static Optional<? extends RecipeHolder<? extends AbstractCookingRecipe>> choice_craft$pickTickRecipe(
+		net.minecraft.world.item.crafting.RecipeManager.CachedCheck<SingleRecipeInput, ? extends AbstractCookingRecipe> matchGetter,
+		net.minecraft.world.item.crafting.RecipeInput input,
+		ServerLevel world,
+		ServerLevel tickWorld,
+		net.minecraft.core.BlockPos pos,
+		net.minecraft.world.level.block.state.BlockState state,
 		AbstractFurnaceBlockEntity blockEntity
 	) {
 		if (blockEntity instanceof ChoiceCookingSelectionAccess access) {
-			RecipeEntry<? extends AbstractCookingRecipe> selected = access.choice_craft$getSelectedCookingRecipe(world);
+			RecipeHolder<? extends AbstractCookingRecipe> selected = access.choice_craft$getSelectedCookingRecipe(world);
 			if (selected != null) {
 				return Optional.of(selected);
 			}
 		}
 
-		return matchGetter.getFirstMatch((SingleStackRecipeInput) input, world);
+		return matchGetter.getRecipeFor((SingleRecipeInput) input, world);
 	}
 
 	@Redirect(
-		method = "getCookTime",
+		method = "getTotalCookTime",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/recipe/ServerRecipeManager$MatchGetter;getFirstMatch(Lnet/minecraft/recipe/input/RecipeInput;Lnet/minecraft/server/world/ServerWorld;)Ljava/util/Optional;"
+			target = "Lnet/minecraft/world/item/crafting/RecipeManager$CachedCheck;getRecipeFor(Lnet/minecraft/world/item/crafting/RecipeInput;Lnet/minecraft/server/level/ServerLevel;)Ljava/util/Optional;"
 		)
 	)
-	private static Optional<? extends RecipeEntry<? extends AbstractCookingRecipe>> choice_craft$pickCookTimeRecipe(
-		net.minecraft.recipe.ServerRecipeManager.MatchGetter<SingleStackRecipeInput, ? extends AbstractCookingRecipe> matchGetter,
-		net.minecraft.recipe.input.RecipeInput input,
-		ServerWorld world,
-		ServerWorld cookWorld,
+	private static Optional<? extends RecipeHolder<? extends AbstractCookingRecipe>> choice_craft$pickCookTimeRecipe(
+		net.minecraft.world.item.crafting.RecipeManager.CachedCheck<SingleRecipeInput, ? extends AbstractCookingRecipe> matchGetter,
+		net.minecraft.world.item.crafting.RecipeInput input,
+		ServerLevel world,
+		ServerLevel cookWorld,
 		AbstractFurnaceBlockEntity blockEntity
 	) {
 		if (blockEntity instanceof ChoiceCookingSelectionAccess access) {
-			RecipeEntry<? extends AbstractCookingRecipe> selected = access.choice_craft$getSelectedCookingRecipe(world);
+			RecipeHolder<? extends AbstractCookingRecipe> selected = access.choice_craft$getSelectedCookingRecipe(world);
 			if (selected != null) {
 				return Optional.of(selected);
 			}
 		}
 
-		return matchGetter.getFirstMatch((SingleStackRecipeInput) input, world);
+		return matchGetter.getRecipeFor((SingleRecipeInput) input, world);
 	}
 
 	@Override
@@ -95,56 +95,56 @@ public abstract class AbstractFurnaceBlockEntityMixin implements ChoiceCookingSe
 	}
 
 	@Override
-	public @Nullable RecipeEntry<? extends AbstractCookingRecipe> choice_craft$getSelectedCookingRecipe(ServerWorld world) {
-		List<RecipeEntry<? extends AbstractCookingRecipe>> matches = this.choice_craft$getMatchingRecipes(world);
+	public @Nullable RecipeHolder<? extends AbstractCookingRecipe> choice_craft$getSelectedCookingRecipe(ServerLevel world) {
+		List<RecipeHolder<? extends AbstractCookingRecipe>> matches = this.choice_craft$getMatchingRecipes(world);
 		if (matches.isEmpty()) {
 			this.choice_craft$selectedRecipeId = null;
 			return null;
 		}
 
-		for (RecipeEntry<? extends AbstractCookingRecipe> match : matches) {
-			if (match.id().getValue().equals(this.choice_craft$selectedRecipeId)) {
+		for (RecipeHolder<? extends AbstractCookingRecipe> match : matches) {
+			if (match.id().identifier().equals(this.choice_craft$selectedRecipeId)) {
 				return match;
 			}
 		}
 
-		RecipeEntry<? extends AbstractCookingRecipe> firstMatch = matches.getFirst();
-		this.choice_craft$selectedRecipeId = firstMatch.id().getValue();
+		RecipeHolder<? extends AbstractCookingRecipe> firstMatch = matches.getFirst();
+		this.choice_craft$selectedRecipeId = firstMatch.id().identifier();
 		return firstMatch;
 	}
 
 	@Override
-	public List<ChoiceRecipeOption> choice_craft$getCookingRecipeOptions(ServerWorld world) {
-		SingleStackRecipeInput input = new SingleStackRecipeInput(this.inventory.getFirst());
+	public List<ChoiceRecipeOption> choice_craft$getCookingRecipeOptions(ServerLevel world) {
+		SingleRecipeInput input = new SingleRecipeInput(this.items.getFirst());
 		List<ChoiceRecipeOption> options = new ArrayList<>();
-		for (RecipeEntry<? extends AbstractCookingRecipe> match : this.choice_craft$getMatchingRecipes(world)) {
+		for (RecipeHolder<? extends AbstractCookingRecipe> match : this.choice_craft$getMatchingRecipes(world)) {
 			options.add(new ChoiceRecipeOption(
-				match.id().getValue(),
-				match.value().craft(input, world.getRegistryManager())
+				match.id().identifier(),
+				match.value().assemble(input, world.registryAccess())
 			));
 		}
 		return options;
 	}
 
 	@Unique
-	private List<RecipeEntry<? extends AbstractCookingRecipe>> choice_craft$getMatchingRecipes(ServerWorld world) {
-		ItemStack inputStack = this.inventory.getFirst();
+	private List<RecipeHolder<? extends AbstractCookingRecipe>> choice_craft$getMatchingRecipes(ServerLevel world) {
+		ItemStack inputStack = this.items.getFirst();
 		if (inputStack.isEmpty() || this.choice_craft$recipeType == null) {
 			return List.of();
 		}
 
-		SingleStackRecipeInput input = new SingleStackRecipeInput(inputStack);
-		List<RecipeEntry<? extends AbstractCookingRecipe>> matches = new ArrayList<>();
-		for (RecipeEntry<?> entry : world.getServer().getRecipeManager().values()) {
+		SingleRecipeInput input = new SingleRecipeInput(inputStack);
+		List<RecipeHolder<? extends AbstractCookingRecipe>> matches = new ArrayList<>();
+		for (RecipeHolder<?> entry : world.getServer().getRecipeManager().getRecipes()) {
 			Recipe<?> recipe = entry.value();
 			if (recipe instanceof AbstractCookingRecipe cookingRecipe && recipe.getType() == this.choice_craft$recipeType && cookingRecipe.matches(input, world)) {
 				@SuppressWarnings("unchecked")
-				RecipeEntry<? extends AbstractCookingRecipe> cookingEntry = (RecipeEntry<? extends AbstractCookingRecipe>) entry;
+				RecipeHolder<? extends AbstractCookingRecipe> cookingEntry = (RecipeHolder<? extends AbstractCookingRecipe>) entry;
 				matches.add(cookingEntry);
 			}
 		}
 
-		matches.sort(Comparator.comparing(entry -> entry.id().getValue().toString()));
+		matches.sort(Comparator.comparing(entry -> entry.id().identifier().toString()));
 		return matches;
 	}
 }

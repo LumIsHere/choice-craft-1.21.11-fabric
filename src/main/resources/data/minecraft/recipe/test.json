@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    [
+      "minecraft:diamond_block"
+    ]
+  ],
+  "result": {
+    "id": "minecraft:netherite_ingot"
+  }
+}

@@ -8,106 +8,106 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.RecipeInputInventory;
-import net.minecraft.recipe.CraftingRecipe;
-import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.ServerRecipeManager;
-import net.minecraft.screen.AbstractCraftingScreenHandler;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.AbstractCraftingMenu;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeManager;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(AbstractCraftingScreenHandler.class)
+@Mixin(AbstractCraftingMenu.class)
 public abstract class AbstractCraftingScreenHandlerMixin implements ChoiceRecipeSelectionAccess {
-	@Shadow protected RecipeInputInventory craftingInventory;
-	@Shadow protected net.minecraft.inventory.CraftingResultInventory craftingResultInventory;
+	@Shadow protected CraftingContainer craftSlots;
+	@Shadow protected net.minecraft.world.inventory.ResultContainer resultSlots;
 
 	@Unique
-	private List<RecipeEntry<CraftingRecipe>> choice_craft$matches = List.of();
+	private List<RecipeHolder<CraftingRecipe>> choice_craft$matches = List.of();
 
 	@Unique
 	private @Nullable Identifier choice_craft$selectedRecipeId;
 
 	@Unique
-	protected void choice_craft$refreshSelection(ServerWorld world, PlayerEntity player) {
+	protected void choice_craft$refreshSelection(ServerLevel world, Player player) {
 		this.choice_craft$matches = this.choice_craft$findMatches(world);
-		RecipeEntry<CraftingRecipe> selectedRecipe = this.choice_craft$resolveSelection();
+		RecipeHolder<CraftingRecipe> selectedRecipe = this.choice_craft$resolveSelection();
 		CraftingScreenHandlerAccessor.choice_craft$invokeUpdateResult(
-			(ScreenHandler) (Object) this,
+			(AbstractContainerMenu) (Object) this,
 			world,
 			player,
-			this.craftingInventory,
-			this.craftingResultInventory,
+			this.craftSlots,
+			this.resultSlots,
 			selectedRecipe
 		);
 		this.choice_craft$syncOptions(world, player, selectedRecipe);
 	}
 
 	@Unique
-	private List<RecipeEntry<CraftingRecipe>> choice_craft$findMatches(ServerWorld world) {
-		var input = this.craftingInventory.createRecipeInput();
+	private List<RecipeHolder<CraftingRecipe>> choice_craft$findMatches(ServerLevel world) {
+		var input = this.craftSlots.asCraftInput();
 		if (input.isEmpty()) {
 			return List.of();
 		}
 
-		List<RecipeEntry<CraftingRecipe>> matches = new ArrayList<>();
-		ServerRecipeManager manager = world.getServer().getRecipeManager();
+		List<RecipeHolder<CraftingRecipe>> matches = new ArrayList<>();
+		RecipeManager manager = world.getServer().getRecipeManager();
 
-		for (RecipeEntry<?> entry : manager.values()) {
+		for (RecipeHolder<?> entry : manager.getRecipes()) {
 			if (entry.value() instanceof CraftingRecipe craftingRecipe && craftingRecipe.matches(input, world)) {
 				@SuppressWarnings("unchecked")
-				RecipeEntry<CraftingRecipe> craftingEntry = (RecipeEntry<CraftingRecipe>) entry;
+				RecipeHolder<CraftingRecipe> craftingEntry = (RecipeHolder<CraftingRecipe>) entry;
 				matches.add(craftingEntry);
 			}
 		}
 
-		matches.sort(Comparator.comparing(entry -> entry.id().getValue().toString()));
+		matches.sort(Comparator.comparing(entry -> entry.id().identifier().toString()));
 		return matches;
 	}
 
 	@Unique
-	private @Nullable RecipeEntry<CraftingRecipe> choice_craft$resolveSelection() {
+	private @Nullable RecipeHolder<CraftingRecipe> choice_craft$resolveSelection() {
 		if (this.choice_craft$matches.isEmpty()) {
 			this.choice_craft$selectedRecipeId = null;
 			return null;
 		}
 
-		for (RecipeEntry<CraftingRecipe> entry : this.choice_craft$matches) {
-			if (entry.id().getValue().equals(this.choice_craft$selectedRecipeId)) {
+		for (RecipeHolder<CraftingRecipe> entry : this.choice_craft$matches) {
+			if (entry.id().identifier().equals(this.choice_craft$selectedRecipeId)) {
 				return entry;
 			}
 		}
 
-		RecipeEntry<CraftingRecipe> firstMatch = this.choice_craft$matches.getFirst();
-		this.choice_craft$selectedRecipeId = firstMatch.id().getValue();
+		RecipeHolder<CraftingRecipe> firstMatch = this.choice_craft$matches.getFirst();
+		this.choice_craft$selectedRecipeId = firstMatch.id().identifier();
 		return firstMatch;
 	}
 
 	@Unique
-	private void choice_craft$syncOptions(ServerWorld world, PlayerEntity player, @Nullable RecipeEntry<CraftingRecipe> selectedRecipe) {
-		if (!(player instanceof ServerPlayerEntity serverPlayer)) {
+	private void choice_craft$syncOptions(ServerLevel world, Player player, @Nullable RecipeHolder<CraftingRecipe> selectedRecipe) {
+		if (!(player instanceof ServerPlayer serverPlayer)) {
 			return;
 		}
 
-		var input = this.craftingInventory.createRecipeInput();
+		var input = this.craftSlots.asCraftInput();
 		List<ChoiceRecipeOption> options = new ArrayList<>(this.choice_craft$matches.size());
-		for (RecipeEntry<CraftingRecipe> match : this.choice_craft$matches) {
+		for (RecipeHolder<CraftingRecipe> match : this.choice_craft$matches) {
 			options.add(new ChoiceRecipeOption(
-				match.id().getValue(),
-				match.value().craft(input, world.getRegistryManager())
+				match.id().identifier(),
+				match.value().assemble(input, world.registryAccess())
 			));
 		}
 
 		ServerPlayNetworking.send(serverPlayer, new ChoiceRecipeOptionsPayload(
-			((ScreenHandler) (Object) this).syncId,
+			((AbstractContainerMenu) (Object) this).containerId,
 			options,
-			Optional.ofNullable(selectedRecipe).map(entry -> entry.id().getValue())
+			Optional.ofNullable(selectedRecipe).map(entry -> entry.id().identifier())
 		));
 	}
 

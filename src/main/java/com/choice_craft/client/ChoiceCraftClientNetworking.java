@@ -1,9 +1,9 @@
 package com.choice_craft.client;
 
 import com.choice_craft.network.payload.ChoiceRecipeOptionsPayload;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 
 public final class ChoiceCraftClientNetworking {
 	private static boolean initialized;
@@ -23,8 +23,8 @@ public final class ChoiceCraftClientNetworking {
 				return;
 			}
 
-			Screen current = context.client().currentScreen;
-			if (current instanceof HandledScreen<?> handled && handled.getScreenHandler().syncId == payload.syncId() && payload.options().size() > 1) {
+			Screen current = context.client().screen;
+			if (current instanceof AbstractContainerScreen<?> handled && handled.getMenu().containerId == payload.syncId() && payload.options().size() > 1) {
 				context.client().setScreen(new com.choice_craft.client.gui.ChoiceRecipeScreen(current, payload.syncId()));
 			}
 		});

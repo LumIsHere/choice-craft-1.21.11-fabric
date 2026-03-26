@@ -2,21 +2,21 @@ package com.choice_craft.choice;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStack;
 
 public record ChoiceRecipeOption(Identifier recipeId, ItemStack output) {
-	public static final PacketCodec<RegistryByteBuf, ChoiceRecipeOption> PACKET_CODEC = PacketCodec.tuple(
-		Identifier.PACKET_CODEC,
+	public static final StreamCodec<RegistryFriendlyByteBuf, ChoiceRecipeOption> PACKET_CODEC = StreamCodec.composite(
+		Identifier.STREAM_CODEC,
 		ChoiceRecipeOption::recipeId,
-		ItemStack.PACKET_CODEC,
+		ItemStack.STREAM_CODEC,
 		ChoiceRecipeOption::output,
 		ChoiceRecipeOption::new
 	);
 
-	public static final PacketCodec<RegistryByteBuf, List<ChoiceRecipeOption>> LIST_PACKET_CODEC =
-		PACKET_CODEC.collect(PacketCodecs.toCollection(ArrayList::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf, List<ChoiceRecipeOption>> LIST_PACKET_CODEC =
+		PACKET_CODEC.apply(ByteBufCodecs.collection(ArrayList::new));
 }

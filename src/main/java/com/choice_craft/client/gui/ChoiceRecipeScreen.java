@@ -6,7 +6,7 @@ import com.choice_craft.network.payload.SelectChoiceRecipePayload;
 import java.util.List;
 import java.util.Locale;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.ObjectSelectionList;
@@ -76,14 +76,14 @@ public class ChoiceRecipeScreen extends Screen {
 	}
 
 	@Override
-	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+	public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
 		context.fill(0, 0, this.width, this.height, 0x88000000);
-		context.drawCenteredString(this.font, this.title, this.width / 2, 5, CommonColors.WHITE);
+		context.centeredText(this.font, this.title, this.width / 2, 5, CommonColors.WHITE);
 
-		super.render(context, mouseX, mouseY, delta);
+		super.extractRenderState(context, mouseX, mouseY, delta);
 
 		if (this.recipeList != null && this.recipeList.children().isEmpty()) {
-			context.drawCenteredString(
+			context.centeredText(
 					this.font,
 					Component.translatable("choice_craft.screen.no_results"),
 					this.width / 2,
@@ -189,7 +189,7 @@ public class ChoiceRecipeScreen extends Screen {
 		}
 
 		@Override
-		public void renderContent(GuiGraphics context, int mouseX, int mouseY, boolean hovered, float tickProgress) {
+		public void extractContent(GuiGraphicsExtractor context, int mouseX, int mouseY, boolean hovered, float tickProgress) {
 			ItemStack output = this.option.output();
 			int x = this.getContentX();
 			int y = this.getY();
@@ -200,9 +200,9 @@ public class ChoiceRecipeScreen extends Screen {
 			int textX = ChoiceRecipeScreen.this.width / 2 - textWidth / 2;
 			int textY = this.getContentYMiddle() - 9 / 2;
 
-			context.renderItem(output, iconX, iconY);
-			context.renderItemDecorations(ChoiceRecipeScreen.this.font, output, iconX, iconY);
-			context.drawString(ChoiceRecipeScreen.this.font, name, textX, textY, CommonColors.WHITE);
+			context.item(output, iconX, iconY);
+			context.itemDecorations(ChoiceRecipeScreen.this.font, output, iconX, iconY);
+			context.text(ChoiceRecipeScreen.this.font, name, textX, textY, CommonColors.WHITE);
 		}
 
 		@Override

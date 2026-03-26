@@ -100,7 +100,7 @@ public abstract class AbstractCraftingScreenHandlerMixin implements ChoiceRecipe
 		for (RecipeHolder<CraftingRecipe> match : this.choice_craft$matches) {
 			options.add(new ChoiceRecipeOption(
 				match.id().identifier(),
-				match.value().assemble(input, world.registryAccess())
+				match.value().assemble(input)
 			));
 		}
 

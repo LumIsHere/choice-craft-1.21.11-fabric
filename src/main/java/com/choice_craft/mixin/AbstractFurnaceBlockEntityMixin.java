@@ -120,7 +120,7 @@ public abstract class AbstractFurnaceBlockEntityMixin implements ChoiceCookingSe
 		for (RecipeHolder<? extends AbstractCookingRecipe> match : this.choice_craft$getMatchingRecipes(world)) {
 			options.add(new ChoiceRecipeOption(
 				match.id().identifier(),
-				match.value().assemble(input, world.registryAccess())
+				match.value().assemble(input)
 			));
 		}
 		return options;

@@ -1,7 +1,7 @@
 package com.choice_craft.client.gui.widget;
 
 import java.util.function.Consumer;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -22,7 +22,7 @@ public class ChoiceIconButtonWidget extends AbstractWidget {
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
+	protected void extractWidgetRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float deltaTicks) {
 		Identifier textureId = this.active && this.isHovered() ? this.hoveredTexture : this.texture;
 		context.blit(RenderPipelines.GUI_TEXTURED, textureId, this.getX(), this.getY(), 0.0F, 0.0F, this.width, this.height, this.width, this.height);
 	}

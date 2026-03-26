@@ -45,8 +45,8 @@ public abstract class CrafterScreenMixin extends AbstractContainerScreen<Crafter
 		this.choice_craft$requestRecipeOptions(false);
 	}
 
-	@Inject(method = "render", at = @At("TAIL"))
-	private void choice_craft$refreshButton(net.minecraft.client.gui.GuiGraphics context, int mouseX, int mouseY, float deltaTicks, CallbackInfo ci) {
+	@Inject(method = "extractRenderState", at = @At("TAIL"))
+	private void choice_craft$refreshButton(net.minecraft.client.gui.GuiGraphicsExtractor context, int mouseX, int mouseY, float deltaTicks, CallbackInfo ci) {
 		this.choice_craft$refreshTicks++;
 		if (this.choice_craft$refreshTicks >= choice_craft$REFRESH_INTERVAL) {
 			this.choice_craft$refreshTicks = 0;

@@ -22,9 +22,9 @@ public final class ChoiceCraftNetworking {
 		}
 
 		initialized = true;
-		PayloadTypeRegistry.playS2C().register(ChoiceRecipeOptionsPayload.ID, ChoiceRecipeOptionsPayload.CODEC);
-		PayloadTypeRegistry.playC2S().register(SelectChoiceRecipePayload.ID, SelectChoiceRecipePayload.CODEC);
-		PayloadTypeRegistry.playC2S().register(RequestChoiceRecipeOptionsPayload.ID, RequestChoiceRecipeOptionsPayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(ChoiceRecipeOptionsPayload.ID, ChoiceRecipeOptionsPayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(SelectChoiceRecipePayload.ID, SelectChoiceRecipePayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(RequestChoiceRecipeOptionsPayload.ID, RequestChoiceRecipeOptionsPayload.CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(SelectChoiceRecipePayload.ID, (payload, context) -> {
 			AbstractContainerMenu handler = context.player().containerMenu;
 			if (handler == null || handler.containerId != payload.syncId()) {
